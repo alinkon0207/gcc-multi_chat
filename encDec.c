@@ -80,6 +80,7 @@ int hamming_encode(void *in, void *enc, unsigned int size)
         B(enc, j) = addHammingCode(nibble1);
         B(enc, j + 1) = addHammingCode(nibble2);
     }
+    B(enc, j) = 0;
 
     return j;
 }

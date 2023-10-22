@@ -57,11 +57,22 @@ void *receive_messages(void *arg)
     pthread_exit(NULL);
 }
 
-int main()
+int main(int argc, char* argv[])
 {
     int client_socket;
     struct sockaddr_in server_addr;
     pthread_t tid;
+    char ip[20] = "";
+    int port;
+
+    if (argc < 2)
+        strcpy(ip, "127.0.0.1");
+    else
+        strcpy(ip, argv[1]);
+    if (argc < 3)
+        port = PORT;
+    else
+        port = atoi(argv[2]);
 
     // Create client socket
     client_socket = socket(AF_INET, SOCK_STREAM, 0);
@@ -73,9 +84,9 @@ int main()
 
     // Set up server address
     server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(PORT);
+    server_addr.sin_port = htons(port);
 
-    if (inet_pton(AF_INET, "127.0.0.1", &(server_addr.sin_addr)) <= 0)
+    if (inet_pton(AF_INET, ip, &(server_addr.sin_addr)) <= 0)
     {
         perror("Invalid address");
         return 1;
@@ -175,6 +186,7 @@ int main()
                         temp_msg[strcspn(temp_msg, "\n")] = '\0';
 
                         int enc_len = hamming_encode(temp_msg, enc_msg, strlen(temp_msg));
+                        printf("temp_msg = %s, enc_len = %d, enc_msg = %s\n", temp_msg, enc_len, enc_msg);
 
                         sprintf(send_msg, "<%s><%s>%s</%s><%s>%s</%s><%s>%s</%s></%s>", 
                             TAG_MSG, 

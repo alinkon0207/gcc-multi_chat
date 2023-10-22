@@ -107,15 +107,17 @@ void *handle_client(void *arg)
             else if (strcmp(root->tag, TAG_MSG) == 0)
             {
                 xmlNode* currentNode = root->children;
-                char fromWhom[128];
+                char from[128];
+                char to[128];
                 char svrMsg[BUFFER_SIZE];
 
                 while (currentNode != NULL)
                 {
                     if (strcmp(currentNode->tag, TAG_FROM) == 0)
-                        sprintf(fromWhom, "%s", currentNode->content);    
+                        sprintf(from, "%s", currentNode->content);    
                     else if (strcmp(currentNode->tag, TAG_TO) == 0)
                     {
+                        sprintf(to, "%s", currentNode->content);
                         // printf("%s\n", currentNode->content);
                         to_client_socket = getSockClientFromName(currentNode->content);
                         // printf("%d\n", to_client_socket);
@@ -123,7 +125,7 @@ void *handle_client(void *arg)
                     else if (strcmp(currentNode->tag, TAG_BODY) == 0)
                         sprintf(svrMsg, "<%s><%s>%s</%s><%s>%s</%s></%s>", 
                             TAG_MSG, 
-                                TAG_FROM, fromWhom, TAG_FROM, 
+                                TAG_FROM, from, TAG_FROM, 
                                 TAG_BODY, currentNode->content, TAG_BODY, 
                             TAG_MSG);
                     
@@ -132,14 +134,14 @@ void *handle_client(void *arg)
 
                 if (to_client_socket == -1)
                 {
-                    sprintf(svrMsg, "<%s>%s does not exist now.</%s>", TAG_INFO, fromWhom, TAG_INFO);
+                    sprintf(svrMsg, "<%s>'%s' does not exist now.</%s>", TAG_INFO, to, TAG_INFO);
                     send_with_crc(client_socket, svrMsg, strlen(svrMsg), 0);
                     break;
                 }
                 else
                     send_with_crc(to_client_socket, svrMsg, strlen(svrMsg), 0);
                  
-                // printf("%s\n", svrMsg);
+                printf("%s\n", svrMsg);
             }
         }
         
@@ -162,12 +164,18 @@ void *handle_client(void *arg)
     pthread_exit(NULL);
 }
 
-int main()
+int main(int argc, char* argv[])
 {
     int server_socket, client_socket;
     struct sockaddr_in server_addr, client_addr;
     int opt = 1;
     pthread_t tid;
+    int port;
+
+    if (argc == 1)
+        port = PORT;
+    else
+        port = atoi(argv[1]);
 
     // Initialize clients array
     for (int i = 0; i < MAX_CLIENTS; i++)
@@ -191,7 +199,7 @@ int main()
     // Set up server address
     server_addr.sin_family = AF_INET;
     server_addr.sin_addr.s_addr = INADDR_ANY;
-    server_addr.sin_port = htons(PORT);
+    server_addr.sin_port = htons(port);
 
     // Bind the server socket to the specified address and port
     if (bind(server_socket, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)

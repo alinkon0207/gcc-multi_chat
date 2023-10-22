@@ -39,7 +39,7 @@ unsigned char addHammingCode(unsigned char nibble)
         if (count % 2 == 0)
             hammingCode &= ~(1 << ((1 << i) - 1)); // Set parity bit to make total even
         else
-            hammingCode |= 1 << ((1 << i) - 1); // Set parity bit to make total odd
+            hammingCode |= 1 << ((1 << i) - 1); // Set parity bit to make total even
     }
 
     // printf("Transmitted Hamming code: 0x%X\n", hammingCode);
