@@ -81,19 +81,19 @@ int main() {
         if(login == -1)
         {
             printf("LOGIN ? [y/n]\n");
-            char user_answer;
+            char user_answer[10];
            
-            scanf("%c", &user_answer);
-            if(user_answer == 'y'){
+            fgets(user_answer, sizeof(user_answer), stdin);
+            user_answer[strcspn(user_answer, "\n")] = '\0';
+            if (!strcmp(user_answer, "y")){
                 int login_succeed = -1;
                 while(login_succeed == -1){
                     printf("You choose LOGIN option...\n");
-                    fgets(username, sizeof(username), stdin);
                     
-                    printf("\nusername :");
+                    printf("\nusername: ");
                     if(fgets(username, sizeof(username), stdin)){
                         printf("\npassword: ");
-                        username[strcspn(username, "\n")] = '\0';     
+                        username[strcspn(username, "\n")] = '\0';
                         if(fgets(password, sizeof(password), stdin)){
                             password[strcspn(password, "\n")] = '\0';     
                             login_succeed = 1;
@@ -104,25 +104,27 @@ int main() {
                     }
                 }
                 login = 1;
-            }else if(user_answer == 'n'){
-                break;
+            }else if (!strcmp(user_answer, "n")){
+                continue;
             }else{
                 printf("input correct option character\n");
+                break;
             }
-        }else{
+        }
+        else{
             int option = -1;
-            printf("1 : MSG\n");
-            printf("2 : DISCONNECT\n");
+            printf("1: MSG\n");
+            printf("2: DISCONNECT\n");
             scanf("%d", &option);
             if(option == 1){
                 char to_name[128];
                 char temp_msg[49000];
                 char send_msg[BUFFER_SIZE];
                 fgets(to_name, sizeof(to_name), stdin);
-                printf("\nto : ");
+                printf("\nto: ");
                 if(fgets(to_name, sizeof(to_name), stdin) != NULL){
                     to_name[strcspn(to_name, "\n")] = '\0';     
-                    printf("\nmsg : ");    
+                    printf("\nmsg: ");    
                     if(fgets(temp_msg, sizeof(temp_msg), stdin) != NULL){
                         temp_msg[strcspn(temp_msg, "\n")] = '\0';     
                         sprintf(send_msg, "<%s><%s>%s</%s><%s>%s</%s><%s>%s</%s></%s>", 

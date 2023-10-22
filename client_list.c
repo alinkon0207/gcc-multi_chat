@@ -1,7 +1,10 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "client_list.h"
 
 struct node * head = NULL;
-struct ndoe * current = NULL;
+struct node * current = NULL;
 
 
 void insertAtBegin(int _id, char * _name, char * password)

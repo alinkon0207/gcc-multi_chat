@@ -1,4 +1,4 @@
-default: build
+default: all
 
 all: server client
 

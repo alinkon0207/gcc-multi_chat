@@ -132,6 +132,7 @@ void *handle_client(void *arg) {
 int main() {
     int server_socket, client_socket;
     struct sockaddr_in server_addr, client_addr;
+    int opt = 1;
     pthread_t tid;
 
     // Initialize clients array
@@ -144,6 +145,12 @@ int main() {
     if (server_socket == -1) {
         perror("Socket creation failed");
         return 1;
+    }
+
+    // Set socket options
+    if (setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) {
+        perror("setsockopt failed");
+        exit(EXIT_FAILURE);
     }
 
     // Set up server address
