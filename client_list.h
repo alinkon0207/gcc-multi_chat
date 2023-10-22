@@ -2,12 +2,14 @@
 #define __CLIENT_LIST_H__
 
 //-----------------Lined lsit to manage client list-------------------------------------------
-struct node{
+struct node
+{
     int id;
     char name[128];
     char password[128];
     struct node * next;
 };
+
 
 extern struct node * head;
 extern struct node * current;
