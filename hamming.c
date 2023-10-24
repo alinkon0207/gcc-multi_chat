@@ -12,6 +12,7 @@ unsigned char addHammingCode(unsigned char nibble)
     // Insert parity bits at their respective positions
     unsigned char hammingCode = 0;
     int j = 0;
+    
     for (int i = 0; i < m + r; i++)
     {
         if (i == 0 || i == 1 || i == 3 || i == 7)
@@ -42,6 +43,8 @@ unsigned char addHammingCode(unsigned char nibble)
             hammingCode |= 1 << ((1 << i) - 1); // Set parity bit to make total even
     }
 
+    hammingCode |= 0x80;
+
     // printf("Transmitted Hamming code: 0x%X\n", hammingCode);
     return hammingCode;
 }
@@ -56,6 +59,8 @@ unsigned char detectAndCorrectError(unsigned char hammingCode)
     // Calculate parity for each received parity bit
     int errorPos = 0;
     int errorFound = 0;
+
+    hammingCode &= ~0x80; // clear bit 7
 
     for (int i = 0; i < r; i++)
     {

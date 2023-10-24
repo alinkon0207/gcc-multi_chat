@@ -141,7 +141,7 @@ void *handle_client(void *arg)
                 else
                     send_with_crc(to_client_socket, svrMsg, strlen(svrMsg), 0);
                  
-                printf("%s\n", svrMsg);
+                // printf("%s\n", svrMsg);
             }
         }
         

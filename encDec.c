@@ -10,9 +10,6 @@
 #include "hamming.h"
 
 
-#define B(ptr, offset)  *((uint8_t *)(ptr) + (offset))
-
-
 int recv_with_crc(int sock, void *buffer, unsigned int size, int flag)
 {
     int ret;

@@ -186,7 +186,7 @@ int main(int argc, char* argv[])
                         temp_msg[strcspn(temp_msg, "\n")] = '\0';
 
                         int enc_len = hamming_encode(temp_msg, enc_msg, strlen(temp_msg));
-                        printf("temp_msg = %s, enc_len = %d, enc_msg = %s\n", temp_msg, enc_len, enc_msg);
+                        // printf("temp_msg = %s, enc_len = %d, enc_msg = %s\n", temp_msg, enc_len, enc_msg);
 
                         sprintf(send_msg, "<%s><%s>%s</%s><%s>%s</%s><%s>%s</%s></%s>", 
                             TAG_MSG, 

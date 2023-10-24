@@ -15,4 +15,6 @@ typedef unsigned int    uint32_t;
 #define MAX_CLIENTS     10
 #define BUFFER_SIZE     50001
 
+#define B(ptr, offset)  *((uint8_t *)(ptr) + (offset))
+
 #endif  /// __DEFINE_H__
