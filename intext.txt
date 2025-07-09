@@ -1,0 +1,2 @@
+Machine representation of the source code.
+Source code represents the part of process that contains the programming language itself. You may use a text editor to write your source code file. A compiler will be used to produce a machine representation of your source code. Such representation may show your code as hexadecimal or binary formats. The resulting hexadecimal code will contain combinations of numbers such 1 3 5 8 2 4 6 9 12 21 13 31 14 41 15 51 16 61 17 71 18 81 19 91 100 or combinations of characters and numbers such as 1A3B4C0DEFA, for example.
